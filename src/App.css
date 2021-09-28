@@ -5,6 +5,16 @@
 
 .wrapper fieldset {
   margin: 20px 0;
+  width: 500px;
+}
+
+.wrapper input {
+  width: 750px;
+ 
+}
+
+.ant-form-item {
+  margin-bottom: 4px;
 }
 
 .App {

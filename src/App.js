@@ -60,6 +60,7 @@ function App() {
                   +',N' + '\''+formData.txtAnswer+'\''
                   +')'
     console.log(sqlString)
+    formData.txtResult = sqlString;
 
 }
 
@@ -96,9 +97,15 @@ function App() {
          <label><p>C</p><input name="txtC" onChange={setFormData} value={formData.txtC || ''} /></label>
          <label><p>D</p><input name="txtD" onChange={setFormData} value={formData.txtD || ''} /></label>
          <label><p>Answer</p><input name="txtAnswer" onChange={setFormData} value={formData.txtAnswer || ''} /></label>
+         
        </fieldset>
        <button type="btnCreateSQL">Create SQL</button>
+
+       <label><p>Result</p><textarea name="txtResult" cols="100" rows="10" onChange={setFormData} value={formData.txtResult || ''} /></label>
+      
+      
       </form>
+  
     </div>
   );
 }
