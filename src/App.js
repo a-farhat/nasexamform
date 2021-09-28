@@ -34,6 +34,7 @@ function App() {
    }, 3000)
   }
   
+  //custom function to create a SQL insert statement from the values of the user input fields
   function createSQL () {
 
     //INSERT [dbo].[ExamQuestions] ([QID], [ExamSection], [Num], [Question], [A], [B], [C], [D], [Answer]) 
