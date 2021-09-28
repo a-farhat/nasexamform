@@ -36,9 +36,29 @@ function App() {
   
   function createSQL () {
 
+    //INSERT [dbo].[ExamQuestions] ([QID], [ExamSection], [Num], [Question], [A], [B], [C], [D], [Answer]) 
+    //VALUES (51, 
+            //N'Comprehensive', 
+            //1, 
+            //N'A patient with cataract would most commonly complain of which symptoms',
+            //N'Halos and rainbows around lights', 
+            //N'Eye pain and irritation that worsens at night',
+            //N'Blurred and hazy vision', 
+            //N'Eye strain and headache when doing close work',
+            //N'c')
     
     
-    let sqlString = 'Insert into ExamQuestions ([QID], [ExamSection], [Num], [Question], [A], [B], [C], [D], [Answer]) VALUES('+formData.txtQID;
+    let sqlString = 'INSERT [dbo].[ExamQuestions] ([QID], [ExamSection], [Num], [Question], [A], [B], [C], [D], [Answer])' 
+                  + 'VALUES('+formData.txtQID  
+                  +',N' + '\''  +formData.txtExamSection+ '\''
+                  +',' +formData.txtNum 
+                  + ',N'+ '\''+formData.txtQuestion+'\''
+                  +',N' + '\''+formData.txtA+'\''
+                  +',N' + '\''+formData.txtB+'\''
+                  +',N' + '\''+formData.txtC+'\''
+                  +',N' + '\''+formData.txtD+'\''
+                  +',N' + '\''+formData.txtAnswer+'\''
+                  +')'
     console.log(sqlString)
 
 }
