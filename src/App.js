@@ -27,15 +27,15 @@ function App() {
   const handleSubmit = event => {
     event.preventDefault();
     setSubmitting(true);
-    createSQL();
-
+    createExamSQL();
+    createApplicantSQL();
    setTimeout(() => {
      setSubmitting(false);
    }, 3000)
   }
   
   //custom function to create a SQL insert statement from the values of the user input fields
-  function createSQL () {
+  function createExamSQL () {
 
     //INSERT [dbo].[ExamQuestions] ([QID], [ExamSection], [Num], [Question], [A], [B], [C], [D], [Answer]) 
     //VALUES (51, 
@@ -49,8 +49,8 @@ function App() {
             //N'c')
     
     
-    let sqlString = 'INSERT [dbo].[ExamQuestions] ([QID], [ExamSection], [Num], [Question], [A], [B], [C], [D], [Answer])' 
-                  + 'VALUES('+formData.txtQID  
+    let sqlExamString_insert = 'INSERT [dbo].[ExamQuestions] ([QID], [ExamSection], [Num], [Question], [A], [B], [C], [D], [Answer]) VALUES' 
+    let sqlExamString_values = '\r\n' + '('+formData.txtQID  
                   +',N' + '\''  +formData.txtExamSection+ '\''
                   +',' +formData.txtNum 
                   + ',N'+ '\''+formData.txtQuestion+'\''
@@ -59,11 +59,39 @@ function App() {
                   +',N' + '\''+formData.txtC+'\''
                   +',N' + '\''+formData.txtD+'\''
                   +',N' + '\''+formData.txtAnswer+'\''
-                  +')'
-    console.log(sqlString)
-    formData.txtResult = sqlString;
+                  +'),'
+    //console.log(sqlString)
+    formData.txtExamResult = formData.txtExamResult + sqlExamString_values;
 
-}
+  }
+
+  //custom function to create a SQL insert statement from the values of the user input fields
+  function createApplicantSQL () {
+
+    //INSERT [dbo].[ExamQuestions] ([QID], [ExamSection], [Num], [Question], [A], [B], [C], [D], [Answer]) 
+    //VALUES (51, 
+            //N'Comprehensive', 
+            //1, 
+            //N'A patient with cataract would most commonly complain of which symptoms',
+            //N'Halos and rainbows around lights', 
+            //N'Eye pain and irritation that worsens at night',
+            //N'Blurred and hazy vision', 
+            //N'Eye strain and headache when doing close work',
+            //N'c')
+    
+    
+    let sqlApplicantString_insert = 'INSERT INTO [dbo].[EMPApplicant] ([FirstName],[LastName],[Email],[Password],[DateLastModified],[DateRegistered]) VALUES' 
+    let sqlApplicantString_values =  '\r\n' +
+                   '(\''+formData.txtFirstName+ '\''
+                  +',' + '\''  +formData.txtLastName+ '\''
+                  +',' + '\''+formData.txtEmail+'\''
+                  +',' + '\''+formData.txtEmail+'\''
+                  +',GETDATE(),GETDATE()),'
+                  
+    //console.log(sqlApplicantString)
+    formData.txtApplicantResult =  formData.txtApplicantResult + sqlApplicantString_values;
+
+  }
 
 
   //The problem is that the SyntheticEvent is reused and cannot be passed to an asynchronous function. In other words, you can’t pass the event directly. To fix this, you’ll need to pull out the data you need before calling the reducer function.
@@ -78,7 +106,7 @@ function App() {
 
   return (
     <div className="wrapper">
-      <h1>One way to insert the NAS Exam questions</h1>
+      <h1>NAS Exam questions</h1>
       {submitting &&
        <div> You are submitting the following:
        <ul>
@@ -98,11 +126,26 @@ function App() {
          <label><p>C</p><input name="txtC" onChange={setFormData} value={formData.txtC || ''} /></label>
          <label><p>D</p><input name="txtD" onChange={setFormData} value={formData.txtD || ''} /></label>
          <label><p>Answer</p><input name="txtAnswer" onChange={setFormData} value={formData.txtAnswer || ''} /></label>
+        
+        </fieldset>
+        <button type="btnCreateExamSQL">Create Exam SQL</button>
+        <label><p>'INSERT [dbo].[ExamQuestions] ([QID], [ExamSection], [Num], [Question], [A], [B], [C], [D], [Answer]) VALUES'</p></label>
+        <label><p>Result</p><textarea name="txtExamResult" cols="100" rows="10" onChange={setFormData} value={formData.txtExamResult || ''} /></label>
+        <h1>NAS Applicant Info</h1>
+         <fieldset>
+         
+         <label><p>FirstName</p><input name="txtFirstName" onChange={setFormData} value={formData.txtFirstName || ''} /></label>
+         <label><p>LastName</p><input name="txtLastName" onChange={setFormData}  value={formData.txtLastName || ''} /></label>
+         <label><p>Email</p><input name="txtEmail" onChange={setFormData} value={formData.txtEmail || ''} /></label>
+        
          
        </fieldset>
-       <button type="btnCreateSQL">Create SQL</button>
+      
+       <button type="btnCreateApplicantSQL">Create Applicant SQL</button>
 
-       <label><p>Result</p><textarea name="txtResult" cols="100" rows="10" onChange={setFormData} value={formData.txtResult || ''} /></label>
+      
+       <label><p>'INSERT INTO [dbo].[EMPApplicant] ([FirstName],[LastName],[Email],[Password],[DateLastModified],[DateRegistered]) VALUES'</p></label>
+       <label><p>Result</p><textarea name="txtApplicantResult" cols="100" rows="10" onChange={setFormData} value={formData.txtApplicantResult || ''} /></label>
       
       
       </form>
